@@ -105,7 +105,7 @@ export class MwaaAirflowStack extends Stack {
       functionName: "mwaa_lambda",
       runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset("src"),
-      handler: "handler.handler",
+      handler: "index.handler",
       logRetention: logs.RetentionDays.ONE_DAY,
     });
   }
