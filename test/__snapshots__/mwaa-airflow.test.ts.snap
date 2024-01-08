@@ -235,7 +235,7 @@ exports[`Match with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "6dc6617b276808516dad3dacef26b40ae0e96bc0d9a6df2008eb755a3841ec90.zip",
+          "S3Key": "2a936e1ba4c824a4eb969e124fec6443aa338f2893cb9806ae52674de1a84460.zip",
         },
         "FunctionName": "mwaa_lambda",
         "Handler": "handler.handler",
