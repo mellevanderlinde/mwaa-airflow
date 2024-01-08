@@ -235,10 +235,10 @@ exports[`Match with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "cb7f1da3cfbcd7c984ab351e40a64283a6bc4b2cd7686900df9c7dea37a893ed.zip",
+          "S3Key": "6dc6617b276808516dad3dacef26b40ae0e96bc0d9a6df2008eb755a3841ec90.zip",
         },
         "FunctionName": "mwaa_lambda",
-        "Handler": "lambda.handler",
+        "Handler": "handler.handler",
         "Role": {
           "Fn::GetAtt": [
             "LambdaServiceRoleA8ED4D3B",
