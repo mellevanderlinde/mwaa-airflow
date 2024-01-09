@@ -15,6 +15,7 @@ def dag(dagbag):
 def test_dag_loaded(dagbag, dag):
     assert dagbag.import_errors == {}
     assert dag is not None
+    assert dag.schedule_interval == "@daily"
     assert len(dag.tasks) == 1
 
 
@@ -25,3 +26,4 @@ def test_dag(dag):
         assert dag.has_task(task_id)
         task = dag.get_task(task_id)
         assert task.downstream_task_ids == set(downstream_list)
+        assert task.task_type == "LambdaInvokeFunctionOperator"
