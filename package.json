@@ -7,11 +7,12 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "rm -rf dags/__pycache__ src/__pycache__ && jest",
-    "test:update": "rm -rf dags/__pycache__ src/__pycache__ && jest -u",
     "cdk": "cdk",
+    "test": "npm run cleanup && jest",
+    "test:update": "npm run cleanup && jest -u",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "cleanup": "rm -rf dags/__pycache__ src/__pycache__"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
