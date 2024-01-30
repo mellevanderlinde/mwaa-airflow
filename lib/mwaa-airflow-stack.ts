@@ -101,12 +101,17 @@ export class MwaaAirflowStack extends Stack {
   }
 
   createHandler(): lambda.Function {
+    const logGroup = new logs.LogGroup(this, "LogGroup", {
+      retention: logs.RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     return new lambda.Function(this, "Lambda", {
       functionName: "mwaa_lambda",
       runtime: lambda.Runtime.PYTHON_3_12,
       code: lambda.Code.fromAsset("src"),
       handler: "index.handler",
-      logRetention: logs.RetentionDays.ONE_DAY,
+      logGroup,
     });
   }
 
