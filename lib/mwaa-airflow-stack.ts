@@ -68,6 +68,7 @@ export class MwaaAirflowStack extends Stack {
 
   createBucket(): s3.Bucket {
     return new s3.Bucket(this, "Bucket", {
+      autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
   }
