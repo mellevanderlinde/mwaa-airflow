@@ -1,6 +1,6 @@
 import { App, assertions } from "aws-cdk-lib";
-import { MwaaAirflowStack } from "../lib/mwaa-airflow-stack";
-import { DagAirflowStack } from "../lib/dag-airflow-stack";
+import { MwaaAirflowStack } from "../lib/mwaa-stack";
+import { DagAirflowStack } from "../lib/dag-stack";
 
 test("Match MwaaAirflowStack with snapshot", () => {
   const app = new App();
