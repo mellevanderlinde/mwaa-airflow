@@ -8,5 +8,5 @@ To install the project's dependencies and deploy to AWS, run the following:
 
 ```
 npm install
-npm run cdk deploy 
+npx cdk deploy --all
 ```

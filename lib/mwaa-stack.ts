@@ -4,21 +4,21 @@ import {
   RemovalPolicy,
   aws_ec2 as ec2,
   aws_s3 as s3,
-  aws_s3_deployment as s3_deployment,
   aws_iam as iam,
   aws_mwaa as mwaa,
-  aws_lambda as lambda,
-  aws_logs as logs,
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export class MwaaAirflowStack extends Stack {
+export class MwaaStack extends Stack {
+  public readonly bucketName: string;
+  public readonly dagFolder: string;
+  public readonly roleName: string;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // Create MWAA environment
     const environmentName = "airflow";
-    const dagsFolderS3 = "dags";
+    this.dagFolder = "dags";
     const vpc = this.createVpc();
     const securityGroup = this.createSecurityGroup(vpc);
     const bucket = this.createBucket();
@@ -26,16 +26,14 @@ export class MwaaAirflowStack extends Stack {
     this.createMwaaEnvironment(
       environmentName,
       bucket,
-      dagsFolderS3,
+      this.dagFolder,
       role,
       securityGroup,
       vpc.privateSubnets,
     );
 
-    // Create DAG resources
-    const handler = this.createHandler();
-    handler.grantInvoke(role);
-    this.copyDag(bucket, dagsFolderS3);
+    this.bucketName = bucket.bucketName;
+    this.roleName = role.roleName;
   }
 
   createVpc(): ec2.Vpc {
@@ -98,34 +96,6 @@ export class MwaaAirflowStack extends Stack {
       loggingConfiguration: {
         taskLogs: { enabled: true, logLevel: "INFO" },
       },
-    });
-  }
-
-  createHandler(): lambda.Function {
-    const logGroup = new logs.LogGroup(this, "LogGroup", {
-      retention: logs.RetentionDays.ONE_DAY,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-
-    return new lambda.Function(this, "Lambda", {
-      functionName: "mwaa_lambda",
-      runtime: lambda.Runtime.PYTHON_3_12,
-      code: lambda.Code.fromAsset("src"),
-      handler: "index.handler",
-      logGroup,
-    });
-  }
-
-  copyDag(
-    destinationBucket: s3.Bucket,
-    destinationKeyPrefix: string,
-  ): s3_deployment.BucketDeployment {
-    return new s3_deployment.BucketDeployment(this, "BucketDeployment", {
-      destinationBucket,
-      destinationKeyPrefix,
-      sources: [s3_deployment.Source.asset("dags")],
-      include: ["*.py"],
-      exclude: ["*"],
     });
   }
 
