@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Match DagAirflowStack with snapshot 1`] = `
+exports[`Match DagStack with snapshot 1`] = `
 {
   "Parameters": {
     "BootstrapVersion": {
@@ -353,7 +353,7 @@ exports[`Match DagAirflowStack with snapshot 1`] = `
 }
 `;
 
-exports[`Match MwaaAirflowStack with snapshot 1`] = `
+exports[`Match MwaaStack with snapshot 1`] = `
 {
   "Parameters": {
     "BootstrapVersion": {
@@ -733,7 +733,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
     },
     "SecurityGroupDD263621": {
       "Properties": {
-        "GroupDescription": "TestMwaaAirflowStack/SecurityGroup",
+        "GroupDescription": "TestMwaaStack/SecurityGroup",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -747,9 +747,9 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "SecurityGroupfromTestMwaaAirflowStackSecurityGroup7A344B43ALLTRAFFIC3EFAA4F9": {
+    "SecurityGroupfromTestMwaaStackSecurityGroupB92B224EALLTRAFFICC0F1DE80": {
       "Properties": {
-        "Description": "from TestMwaaAirflowStackSecurityGroup7A344B43:ALL TRAFFIC",
+        "Description": "from TestMwaaStackSecurityGroupB92B224E:ALL TRAFFIC",
         "GroupId": {
           "Fn::GetAtt": [
             "SecurityGroupDD263621",
@@ -775,7 +775,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc",
+            "Value": "TestMwaaStack/Vpc",
           },
         ],
       },
@@ -786,7 +786,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc",
+            "Value": "TestMwaaStack/Vpc",
           },
         ],
       },
@@ -820,7 +820,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PrivateSubnet1",
+            "Value": "TestMwaaStack/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
@@ -852,7 +852,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PrivateSubnet1",
+            "Value": "TestMwaaStack/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
@@ -878,7 +878,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PrivateSubnet2",
+            "Value": "TestMwaaStack/Vpc/PrivateSubnet2",
           },
         ],
         "VpcId": {
@@ -921,7 +921,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PrivateSubnet2",
+            "Value": "TestMwaaStack/Vpc/PrivateSubnet2",
           },
         ],
         "VpcId": {
@@ -951,7 +951,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet1",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet1",
           },
         ],
       },
@@ -975,7 +975,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet1",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet1",
           },
         ],
       },
@@ -986,7 +986,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet1",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
@@ -1029,7 +1029,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet1",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
@@ -1058,7 +1058,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet2",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {
@@ -1101,7 +1101,7 @@ exports[`Match MwaaAirflowStack with snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "TestMwaaAirflowStack/Vpc/PublicSubnet2",
+            "Value": "TestMwaaStack/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {

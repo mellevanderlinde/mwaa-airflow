@@ -9,7 +9,7 @@ import {
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-export class MwaaAirflowStack extends Stack {
+export class MwaaStack extends Stack {
   public readonly bucketName: string;
   public readonly dagFolder: string;
   public readonly roleName: string;

@@ -10,14 +10,14 @@ import {
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
-interface DagAirflowStackProps extends StackProps {
+interface DagStackProps extends StackProps {
   bucketName: string;
   dagFolder: string;
   roleName: string;
 }
 
-export class DagAirflowStack extends Stack {
-  constructor(scope: Construct, id: string, props: DagAirflowStackProps) {
+export class DagStack extends Stack {
+  constructor(scope: Construct, id: string, props: DagStackProps) {
     super(scope, id, props);
 
     const handler = this.createHandler();
