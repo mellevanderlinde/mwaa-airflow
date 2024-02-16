@@ -14,7 +14,7 @@ jobs:
 
       - name: Lint and test Python files
         run: |
-          pipx install poetry --python 3.11
+          pipx install poetry --python $(which python)
           poetry install
           poetry run airflow db migrate
           poetry run black . --check
