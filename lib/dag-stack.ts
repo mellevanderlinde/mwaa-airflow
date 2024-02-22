@@ -20,17 +20,20 @@ export class DagStack extends Stack {
   constructor(scope: Construct, id: string, props: DagStackProps) {
     super(scope, id, props);
 
-    const handler = this.createHandler();
+    const logGroup = this.createLogGroup();
+    const handler = this.createHandler(logGroup);
+    this.copyDag(props.bucketName, props.dagFolder, logGroup);
     handler.grantInvoke(iam.Role.fromRoleName(this, "Role", props.roleName));
-    this.copyDag(props.bucketName, props.dagFolder);
   }
 
-  createHandler(): lambda.Function {
-    const logGroup = new logs.LogGroup(this, "LogGroup", {
+  createLogGroup(): logs.LogGroup {
+    return new logs.LogGroup(this, "LogGroup", {
       retention: logs.RetentionDays.ONE_DAY,
       removalPolicy: RemovalPolicy.DESTROY,
     });
+  }
 
+  createHandler(logGroup: logs.LogGroup): lambda.Function {
     return new lambda.Function(this, "Lambda", {
       functionName: "mwaa_lambda",
       runtime: lambda.Runtime.PYTHON_3_12,
@@ -43,6 +46,7 @@ export class DagStack extends Stack {
   copyDag(
     bucketName: string,
     dagFolder: string,
+    logGroup: logs.LogGroup,
   ): s3_deployment.BucketDeployment {
     return new s3_deployment.BucketDeployment(this, "BucketDeployment", {
       destinationBucket: s3.Bucket.fromBucketName(this, "Bucket", bucketName),
@@ -50,6 +54,7 @@ export class DagStack extends Stack {
       sources: [s3_deployment.Source.asset("dags")],
       include: ["*.py"],
       exclude: ["*"],
+      logGroup,
     });
   }
 }

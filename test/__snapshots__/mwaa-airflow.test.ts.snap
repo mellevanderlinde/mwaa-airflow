@@ -75,6 +75,11 @@ exports[`Match DagStack with snapshot 1`] = `
             "Ref": "BucketDeploymentAwsCliLayerB018DCE1",
           },
         ],
+        "LoggingConfig": {
+          "LogGroup": {
+            "Ref": "LogGroupF5B46931",
+          },
+        },
         "Role": {
           "Fn::GetAtt": [
             "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
