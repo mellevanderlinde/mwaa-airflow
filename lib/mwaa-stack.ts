@@ -19,25 +19,17 @@ export class MwaaStack extends Stack {
 
     const environmentName = "airflow";
     this.dagFolder = "dags";
-    const vpc = this.createVpc();
-    const securityGroup = this.createSecurityGroup(vpc);
-    const bucket = this.createBucket();
+
+    const bucket = new s3.Bucket(this, "Bucket", {
+      enforceSSL: true,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      autoDeleteObjects: true,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     const role = this.createRole(environmentName, bucket);
-    this.createMwaaEnvironment(
-      environmentName,
-      bucket,
-      this.dagFolder,
-      role,
-      securityGroup,
-      vpc.privateSubnets,
-    );
 
-    this.bucketName = bucket.bucketName;
-    this.roleName = role.roleName;
-  }
-
-  createVpc(): ec2.Vpc {
-    return new ec2.Vpc(this, "Vpc", {
+    const vpc = new ec2.Vpc(this, "Vpc", {
       maxAzs: 2,
       natGateways: 1,
       subnetConfiguration: [
@@ -51,54 +43,37 @@ export class MwaaStack extends Stack {
         },
       ],
     });
-  }
 
-  createSecurityGroup(vpc: ec2.Vpc): ec2.SecurityGroup {
     const securityGroup = new ec2.SecurityGroup(this, "SecurityGroup", {
       vpc,
       allowAllOutbound: true,
     });
-
     securityGroup.addIngressRule(securityGroup, ec2.Port.allTraffic());
 
-    return securityGroup;
-  }
-
-  createBucket(): s3.Bucket {
-    return new s3.Bucket(this, "Bucket", {
-      enforceSSL: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      autoDeleteObjects: true,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-  }
-
-  createMwaaEnvironment(
-    name: string,
-    sourceBucket: s3.Bucket,
-    dagS3Path: string,
-    executionRole: iam.Role,
-    securityGroup: ec2.SecurityGroup,
-    subnets: ec2.ISubnet[],
-  ): mwaa.CfnEnvironment {
-    return new mwaa.CfnEnvironment(this, "MwaaEnvironment", {
-      name,
+    new mwaa.CfnEnvironment(this, "MwaaEnvironment", {
+      name: environmentName,
       airflowVersion: "2.8.1",
-      sourceBucketArn: sourceBucket.bucketArn,
-      dagS3Path,
-      executionRoleArn: executionRole.roleArn,
+      sourceBucketArn: bucket.bucketArn,
+      dagS3Path: this.dagFolder,
+      executionRoleArn: role.roleArn,
       environmentClass: "mw1.small",
       schedulers: 2,
       maxWorkers: 1,
       networkConfiguration: {
         securityGroupIds: [securityGroup.securityGroupId],
-        subnetIds: [subnets[0].subnetId, subnets[1].subnetId],
+        subnetIds: [
+          vpc.privateSubnets[0].subnetId,
+          vpc.privateSubnets[1].subnetId,
+        ],
       },
       webserverAccessMode: "PUBLIC_ONLY",
       loggingConfiguration: {
         taskLogs: { enabled: true, logLevel: "INFO" },
       },
     });
+
+    this.bucketName = bucket.bucketName;
+    this.roleName = role.roleName;
   }
 
   createRole(environmentName: string, bucket: s3.Bucket): iam.Role {
