@@ -5,6 +5,7 @@ import {
   aws_ec2 as ec2,
   aws_s3 as s3,
   aws_iam as iam,
+  aws_logs as logs,
   aws_mwaa as mwaa,
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
@@ -29,6 +30,11 @@ export class MwaaStack extends Stack {
 
     const role = this.createRole(environmentName, bucket);
 
+    const logGroup = new logs.LogGroup(this, "LogGroup", {
+      retention: logs.RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
     const vpc = new ec2.Vpc(this, "Vpc", {
       maxAzs: 2,
       natGateways: 1,
@@ -48,6 +54,7 @@ export class MwaaStack extends Stack {
       vpc,
       allowAllOutbound: true,
     });
+
     securityGroup.addIngressRule(securityGroup, ec2.Port.allTraffic());
 
     new mwaa.CfnEnvironment(this, "MwaaEnvironment", {
@@ -68,7 +75,11 @@ export class MwaaStack extends Stack {
       },
       webserverAccessMode: "PUBLIC_ONLY",
       loggingConfiguration: {
-        taskLogs: { enabled: true, logLevel: "INFO" },
+        taskLogs: {
+          cloudWatchLogGroupArn: logGroup.logGroupArn,
+          enabled: true,
+          logLevel: "INFO",
+        },
       },
     });
 

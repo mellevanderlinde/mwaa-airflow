@@ -682,6 +682,14 @@ exports[`Match MwaaStack with snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
+    "LogGroupF5B46931": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 1,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
     "MwaaEnvironment": {
       "Properties": {
         "AirflowVersion": "2.9.2",
@@ -695,6 +703,12 @@ exports[`Match MwaaStack with snapshot 1`] = `
         },
         "LoggingConfiguration": {
           "TaskLogs": {
+            "CloudWatchLogGroupArn": {
+              "Fn::GetAtt": [
+                "LogGroupF5B46931",
+                "Arn",
+              ],
+            },
             "Enabled": true,
             "LogLevel": "INFO",
           },
