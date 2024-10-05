@@ -15,5 +15,8 @@
         "prettier/prettier": [
             "error"
         ]
-    }
+    },
+    "ignorePatterns": [
+      "*.js"
+    ]
   }
