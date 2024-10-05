@@ -17,5 +17,18 @@ test("Match DagStack with snapshot", () => {
     roleName: "test-role",
   });
   const template = assertions.Template.fromStack(stack);
+
+  // Remove hashes from snapshot
+  const bucketDeployment = template.findResources(
+    "Custom::CDKBucketDeployment",
+  );
+  Object.keys(bucketDeployment).forEach((key) => {
+    bucketDeployment[key].Properties.SourceObjectKeys = ["removed-hash"];
+  });
+  const lambdaFunctions = template.findResources("AWS::Lambda::Function");
+  Object.keys(lambdaFunctions).forEach((key) => {
+    lambdaFunctions[key].Properties.Code.S3Key = "removed-hash";
+  });
+
   expect(template.toJSON()).toMatchSnapshot();
 });

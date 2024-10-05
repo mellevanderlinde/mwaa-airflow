@@ -46,7 +46,7 @@ exports[`Match DagStack with snapshot 1`] = `
           },
         ],
         "SourceObjectKeys": [
-          "33522e57c1e6149c6668158631fbee5cb1699b7f44ef5313dcff67acccc29186.zip",
+          "removed-hash",
         ],
       },
       "Type": "Custom::CDKBucketDeployment",
@@ -62,7 +62,7 @@ exports[`Match DagStack with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2d56e153cac88d3e0c2f842e8e6f6783b8725bf91f95e0673b4725448a56e96d.zip",
+          "S3Key": "removed-hash",
         },
         "Environment": {
           "Variables": {
@@ -229,7 +229,7 @@ exports[`Match DagStack with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "22b37b914e6a6131ab48603e7e9b86273c5dccd439a6b82e28590ac468bc0bd0.zip",
+          "S3Key": "removed-hash",
         },
         "FunctionName": "mwaa_lambda",
         "Handler": "index.handler",
