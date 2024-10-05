@@ -16,7 +16,7 @@ exports[`Match DagStack with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3322b7049fb0ed2b7cbb644a2ada8d1116ff80c32dca89e6ada846b5de26f961.zip",
+          "S3Key": "3f976aebf692cc9a0dcea3c98448e04a5394190cad4fd219bfada2c498098a5f.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -33,6 +33,7 @@ exports[`Match DagStack with snapshot 1`] = `
         "Include": [
           "*.py",
         ],
+        "OutputObjectKeys": true,
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -86,7 +87,7 @@ exports[`Match DagStack with snapshot 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
+        "Runtime": "python3.11",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
