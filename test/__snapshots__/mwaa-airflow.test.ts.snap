@@ -16,7 +16,7 @@ exports[`Match DagStack with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3f976aebf692cc9a0dcea3c98448e04a5394190cad4fd219bfada2c498098a5f.zip",
+          "S3Key": "f24ba5e516d9d80b64bc7b0f406eedd12c36b20e7461f3e7719b7ffbdad72410.zip",
         },
         "Description": "/opt/awscli/aws",
       },
