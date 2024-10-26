@@ -693,7 +693,7 @@ exports[`Match MwaaStack with snapshot 1`] = `
     },
     "MwaaEnvironment": {
       "Properties": {
-        "AirflowVersion": "2.9.2",
+        "AirflowVersion": "2.10.1",
         "DagS3Path": "dags",
         "EnvironmentClass": "mw1.small",
         "ExecutionRoleArn": {

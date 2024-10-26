@@ -59,7 +59,7 @@ export class MwaaStack extends Stack {
 
     new mwaa.CfnEnvironment(this, "MwaaEnvironment", {
       name: environmentName,
-      airflowVersion: "2.9.2",
+      airflowVersion: "2.10.1",
       sourceBucketArn: bucket.bucketArn,
       dagS3Path: this.dagFolder,
       executionRoleArn: role.roleArn,
