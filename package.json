@@ -5,13 +5,10 @@
     "mwaa-airflow": "bin/mwaa-airflow.js"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "cdk": "cdk",
-    "test": "jest",
-    "test:update": "jest -u",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "jest",
+    "test:update": "jest -u"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
