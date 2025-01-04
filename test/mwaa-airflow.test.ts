@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { App, assertions } from "aws-cdk-lib";
 import { MwaaStack } from "../lib/mwaa-stack";
 import { DagStack } from "../lib/dag-stack";
