@@ -1,14 +1,14 @@
 import {
-  Stack,
-  StackProps,
   RemovalPolicy,
-  aws_s3 as s3,
-  aws_s3_deployment as s3_deployment,
+  Stack,
+  type StackProps,
+  aws_iam as iam,
   aws_lambda as lambda,
   aws_logs as logs,
-  aws_iam as iam,
+  aws_s3 as s3,
+  aws_s3_deployment as s3_deployment,
 } from "aws-cdk-lib";
-import { Construct } from "constructs";
+import type { Construct } from "constructs";
 
 interface DagStackProps extends StackProps {
   bucketName: string;

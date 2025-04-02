@@ -1,14 +1,14 @@
 import {
-  Stack,
-  StackProps,
   RemovalPolicy,
+  Stack,
+  type StackProps,
   aws_ec2 as ec2,
-  aws_s3 as s3,
   aws_iam as iam,
   aws_logs as logs,
   aws_mwaa as mwaa,
+  aws_s3 as s3,
 } from "aws-cdk-lib";
-import { Construct } from "constructs";
+import type { Construct } from "constructs";
 
 export class MwaaStack extends Stack {
   public readonly bucketName: string;
@@ -156,7 +156,7 @@ export class MwaaStack extends Stack {
           "kms:GenerateDataKey*",
           "kms:Encrypt",
         ],
-        resources: [`arn:aws:kms:*:*:key/*`],
+        resources: ["arn:aws:kms:*:*:key/*"],
         conditions: {
           StringLike: {
             "kms:ViaService": [`sqs.${this.region}.amazonaws.com`],

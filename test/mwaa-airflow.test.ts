@@ -1,7 +1,7 @@
-import { test, expect } from "vitest";
 import { App, assertions } from "aws-cdk-lib";
-import { MwaaStack } from "../lib/mwaa-stack";
+import { expect, test } from "vitest";
 import { DagStack } from "../lib/dag-stack";
+import { MwaaStack } from "../lib/mwaa-stack";
 
 test("Match MwaaStack with snapshot", () => {
   const app = new App();
@@ -23,13 +23,13 @@ test("Match DagStack with snapshot", () => {
   const bucketDeployment = template.findResources(
     "Custom::CDKBucketDeployment",
   );
-  Object.keys(bucketDeployment).forEach((key) => {
+  for (const key of Object.keys(bucketDeployment)) {
     bucketDeployment[key].Properties.SourceObjectKeys = ["removed-hash"];
-  });
+  }
   const lambdaFunctions = template.findResources("AWS::Lambda::Function");
-  Object.keys(lambdaFunctions).forEach((key) => {
+  for (const key of Object.keys(lambdaFunctions)) {
     lambdaFunctions[key].Properties.Code.S3Key = "removed-hash";
-  });
+  }
 
   expect(template.toJSON()).toMatchSnapshot();
 });
