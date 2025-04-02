@@ -16,7 +16,7 @@ exports[`Match DagStack with snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "0aed80bf7f976059424f9fdde2516a53d05a94ba128011605237ed60747370c8.zip",
+          "S3Key": "566e8d9f8eaa36ffa4f62af3b2cb2abfe3a5e01497f47d6232038964297e694d.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -409,10 +409,10 @@ exports[`Match MwaaStack with snapshot 1`] = `
         "value": "nodejs20.x",
       },
       "cn-north-1": {
-        "value": "nodejs18.x",
+        "value": "nodejs20.x",
       },
       "cn-northwest-1": {
-        "value": "nodejs18.x",
+        "value": "nodejs20.x",
       },
       "eu-central-1": {
         "value": "nodejs20.x",
@@ -463,10 +463,10 @@ exports[`Match MwaaStack with snapshot 1`] = `
         "value": "nodejs20.x",
       },
       "us-gov-east-1": {
-        "value": "nodejs18.x",
+        "value": "nodejs20.x",
       },
       "us-gov-west-1": {
-        "value": "nodejs18.x",
+        "value": "nodejs20.x",
       },
       "us-iso-east-1": {
         "value": "nodejs18.x",
