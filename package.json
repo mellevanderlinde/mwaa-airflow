@@ -5,6 +5,7 @@
     "mwaa-airflow": "bin/mwaa-airflow.js"
   },
   "scripts": {
+    "ci": "pnpm run build && pnpm run lint && pnpm run test",
     "build": "tsc",
     "lint": "biome check --error-on-warnings && poetry run ruff check",
     "test": "vitest run && export AIRFLOW_HOME=$(pwd) && poetry run airflow db migrate && poetry run pytest",
