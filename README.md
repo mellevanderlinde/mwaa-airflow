@@ -7,6 +7,6 @@ This project creates an MWAA (Amazon Managed Workflows for Apache Airflow) envir
 To install the project's dependencies and deploy to AWS, run the following:
 
 ```
-npm ci
+pnpm install
 npx cdk deploy --all
 ```
