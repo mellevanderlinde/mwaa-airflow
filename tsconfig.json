@@ -6,23 +6,30 @@
       "es2020",
       "dom"
     ],
+    "noEmit": true,
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": false,
+    "noFallthroughCasesInSwitch": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": true,
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "paths": {
+      // workaround for: https://github.com/vitest-dev/vitest/issues/4567
+      "rollup/parseAst": [
+        "./node_modules/rollup/dist/parseAst"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

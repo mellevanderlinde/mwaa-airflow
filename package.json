@@ -5,6 +5,7 @@
     "mwaa-airflow": "bin/mwaa-airflow.js"
   },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . && poetry run ruff check",
     "test": "vitest run && export AIRFLOW_HOME=$(pwd) && poetry run airflow db migrate && poetry run pytest",
     "test:update": "vitest run -u"

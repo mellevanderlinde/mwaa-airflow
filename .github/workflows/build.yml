@@ -18,10 +18,8 @@ jobs:
           pipx install poetry --python $(which python)
           poetry install
 
-
-          
-
       - name: Build
         run: |
+          npm run build
           npm run lint
           npm run test
