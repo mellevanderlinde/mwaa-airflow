@@ -6,10 +6,5 @@ import { DagStack } from "../lib/dag-stack";
 
 const app = new App();
 
-const mwaaStack = new MwaaStack(app, "MwaaStack");
-
-new DagStack(app, "DagStack", {
-  bucketName: mwaaStack.bucketName,
-  dagFolder: mwaaStack.dagFolder,
-  roleName: mwaaStack.roleName,
-});
+const { bucketName, dagFolder, roleName } = new MwaaStack(app, "MwaaStack");
+new DagStack(app, "DagStack", { bucketName, dagFolder, roleName });

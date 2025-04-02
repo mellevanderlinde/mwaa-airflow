@@ -7,3 +7,8 @@ node_modules
 .cdk.staging
 cdk.out
 __pycache__
+
+# Airflow
+airflow.cfg
+airflow.db
+logs/scheduler
