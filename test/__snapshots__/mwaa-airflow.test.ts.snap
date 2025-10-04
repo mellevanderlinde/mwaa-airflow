@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Match DagStack with snapshot 1`] = `
+exports[`should match DagStack with snapshot 1`] = `
 {
   "Parameters": {
     "BootstrapVersion": {
@@ -359,7 +359,7 @@ exports[`Match DagStack with snapshot 1`] = `
 }
 `;
 
-exports[`Match MwaaStack with snapshot 1`] = `
+exports[`should match MwaaStack with snapshot 1`] = `
 {
   "Mappings": {
     "LatestNodeRuntimeMap": {
