@@ -1,16 +1,16 @@
 import { App, assertions } from "aws-cdk-lib";
-import { expect, test } from "vitest";
+import { expect, it } from "vitest";
 import { DagStack } from "../lib/dag-stack";
 import { MwaaStack } from "../lib/mwaa-stack";
 
-test("Match MwaaStack with snapshot", () => {
+it("should match MwaaStack with snapshot", () => {
   const app = new App();
   const stack = new MwaaStack(app, "TestMwaaStack");
   const template = assertions.Template.fromStack(stack);
-  expect(template.toJSON()).toMatchSnapshot();
+  expect(template).toMatchSnapshot();
 });
 
-test("Match DagStack with snapshot", () => {
+it("should match DagStack with snapshot", () => {
   const app = new App();
   const stack = new DagStack(app, "TestDagStack", {
     bucketName: "test-bucket",
@@ -31,5 +31,5 @@ test("Match DagStack with snapshot", () => {
     lambdaFunctions[key].Properties.Code.S3Key = "removed-hash";
   }
 
-  expect(template.toJSON()).toMatchSnapshot();
+  expect(template).toMatchSnapshot();
 });

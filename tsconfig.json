@@ -1,30 +1,30 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
     "lib": ["es2020", "dom"],
-    "noEmit": true,
-    "declaration": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": true,
-    "typeRoots": ["./node_modules/@types"],
+    "module": "commonjs",
     "paths": {
       // workaround for: https://github.com/vitest-dev/vitest/issues/4567
       "rollup/parseAst": [
         "./node_modules/.pnpm/rollup@4.39.0/node_modules/rollup/dist/parseAst"
       ]
-    }
+    },
+    "typeRoots": ["./node_modules/@types"],
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "declaration": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noEmit": true
   },
   "exclude": ["node_modules", "cdk.out"]
 }

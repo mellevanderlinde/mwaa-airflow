@@ -1,14 +1,11 @@
-import {
-  RemovalPolicy,
-  Stack,
-  type StackProps,
-  aws_ec2 as ec2,
-  aws_iam as iam,
-  aws_logs as logs,
-  aws_mwaa as mwaa,
-  aws_s3 as s3,
-} from "aws-cdk-lib";
+import type { StackProps } from "aws-cdk-lib";
 import type { Construct } from "constructs";
+import { RemovalPolicy, Stack } from "aws-cdk-lib";
+import { Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
+import { CompositePrincipal, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
+import { CfnEnvironment } from "aws-cdk-lib/aws-mwaa";
+import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
 
 export class MwaaStack extends Stack {
   public readonly bucketName: string;
@@ -21,43 +18,43 @@ export class MwaaStack extends Stack {
     const environmentName = "airflow";
     this.dagFolder = "dags";
 
-    const bucket = new s3.Bucket(this, "Bucket", {
+    const bucket = new Bucket(this, "Bucket", {
       enforceSSL: true,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const role = this.createRole(environmentName, bucket);
 
-    const logGroup = new logs.LogGroup(this, "LogGroup", {
-      retention: logs.RetentionDays.ONE_DAY,
+    const logGroup = new LogGroup(this, "LogGroup", {
+      retention: RetentionDays.ONE_DAY,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const vpc = new ec2.Vpc(this, "Vpc", {
+    const vpc = new Vpc(this, "Vpc", {
       maxAzs: 2,
       natGateways: 1,
       subnetConfiguration: [
         {
-          subnetType: ec2.SubnetType.PUBLIC,
+          subnetType: SubnetType.PUBLIC,
           name: "Public",
         },
         {
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
           name: "Private",
         },
       ],
     });
 
-    const securityGroup = new ec2.SecurityGroup(this, "SecurityGroup", {
+    const securityGroup = new SecurityGroup(this, "SecurityGroup", {
       vpc,
       allowAllOutbound: true,
     });
 
-    securityGroup.addIngressRule(securityGroup, ec2.Port.allTraffic());
+    securityGroup.addIngressRule(securityGroup, Port.allTraffic());
 
-    new mwaa.CfnEnvironment(this, "MwaaEnvironment", {
+    new CfnEnvironment(this, "MwaaEnvironment", {
       name: environmentName,
       airflowVersion: "2.10.1",
       sourceBucketArn: bucket.bucketArn,
@@ -87,18 +84,18 @@ export class MwaaStack extends Stack {
     this.roleName = role.roleName;
   }
 
-  createRole(environmentName: string, bucket: s3.Bucket): iam.Role {
-    const role = new iam.Role(this, "Role", {
-      assumedBy: new iam.CompositePrincipal(
-        new iam.ServicePrincipal("airflow.amazonaws.com"),
-        new iam.ServicePrincipal("airflow-env.amazonaws.com"),
+  createRole(environmentName: string, bucket: Bucket): Role {
+    const role = new Role(this, "Role", {
+      assumedBy: new CompositePrincipal(
+        new ServicePrincipal("airflow.amazonaws.com"),
+        new ServicePrincipal("airflow-env.amazonaws.com"),
       ),
     });
 
     bucket.grantRead(role);
 
     role.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         actions: [
           "logs:CreateLogStream",
           "logs:CreateLogGroup",
@@ -115,7 +112,7 @@ export class MwaaStack extends Stack {
     );
 
     role.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         actions: [
           "logs:DescribeLogGroups",
           "cloudwatch:PutMetricData",
@@ -126,7 +123,7 @@ export class MwaaStack extends Stack {
     );
 
     role.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         actions: ["airflow:PublishMetrics"],
         resources: [
           `arn:aws:airflow:${this.region}:${this.account}:environment/${environmentName}`,
@@ -135,7 +132,7 @@ export class MwaaStack extends Stack {
     );
 
     role.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         actions: [
           "sqs:ChangeMessageVisibility",
           "sqs:DeleteMessage",
@@ -149,7 +146,7 @@ export class MwaaStack extends Stack {
     );
 
     role.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         actions: [
           "kms:Decrypt",
           "kms:DescribeKey",

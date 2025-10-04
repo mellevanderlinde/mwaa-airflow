@@ -17,5 +17,5 @@ pytest = "^8.3.3"
 ruff = "^0.11.2"
 
 [build-system]
-requires = ["poetry-core"]
+requires = [ "poetry-core" ]
 build-backend = "poetry.core.masonry.api"

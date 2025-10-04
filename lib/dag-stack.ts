@@ -1,14 +1,11 @@
-import {
-  RemovalPolicy,
-  Stack,
-  type StackProps,
-  aws_iam as iam,
-  aws_lambda as lambda,
-  aws_logs as logs,
-  aws_s3 as s3,
-  aws_s3_deployment as s3_deployment,
-} from "aws-cdk-lib";
+import type { StackProps } from "aws-cdk-lib";
 import type { Construct } from "constructs";
+import { RemovalPolicy, Stack } from "aws-cdk-lib";
+import { Role } from "aws-cdk-lib/aws-iam";
+import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
+import { Bucket } from "aws-cdk-lib/aws-s3";
+import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
 
 interface DagStackProps extends StackProps {
   bucketName: string;
@@ -20,32 +17,32 @@ export class DagStack extends Stack {
   constructor(scope: Construct, id: string, props: DagStackProps) {
     super(scope, id, props);
 
-    const logGroup = new logs.LogGroup(this, "LogGroup", {
-      retention: logs.RetentionDays.ONE_DAY,
+    const logGroup = new LogGroup(this, "LogGroup", {
+      retention: RetentionDays.ONE_DAY,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const handler = new lambda.Function(this, "Lambda", {
+    const handler = new Function(this, "Lambda", {
       functionName: "mwaa_lambda",
-      runtime: lambda.Runtime.PYTHON_3_12,
-      code: lambda.Code.fromAsset("src"),
+      runtime: Runtime.PYTHON_3_12,
+      code: Code.fromAsset("src"),
       handler: "index.handler",
       logGroup,
     });
 
-    new s3_deployment.BucketDeployment(this, "BucketDeployment", {
-      destinationBucket: s3.Bucket.fromBucketName(
+    new BucketDeployment(this, "BucketDeployment", {
+      destinationBucket: Bucket.fromBucketName(
         this,
         "Bucket",
         props.bucketName,
       ),
       destinationKeyPrefix: props.dagFolder,
-      sources: [s3_deployment.Source.asset("dags")],
+      sources: [Source.asset("dags")],
       include: ["*.py"],
       exclude: ["*"],
       logGroup,
     });
 
-    handler.grantInvoke(iam.Role.fromRoleName(this, "Role", props.roleName));
+    handler.grantInvoke(Role.fromRoleName(this, "Role", props.roleName));
   }
 }
