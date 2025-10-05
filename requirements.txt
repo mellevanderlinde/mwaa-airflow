@@ -1,0 +1,5 @@
+apache-airflow==2.10.1
+apache-airflow-providers-amazon==8.28.0
+pendulum==3.0.0
+connexion==2.14.2
+flask-session==0.5.0

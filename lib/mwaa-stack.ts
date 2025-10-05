@@ -1,4 +1,5 @@
 import type { StackProps } from "aws-cdk-lib";
+import type { IBucket } from "aws-cdk-lib/aws-s3";
 import type { Construct } from "constructs";
 import { RemovalPolicy, Stack } from "aws-cdk-lib";
 import { Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
@@ -7,25 +8,25 @@ import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
 import { CfnEnvironment } from "aws-cdk-lib/aws-mwaa";
 import { BlockPublicAccess, Bucket } from "aws-cdk-lib/aws-s3";
 
+const environmentName = "airflow";
+
 export class MwaaStack extends Stack {
-  public readonly bucketName: string;
-  public readonly dagFolder: string;
+  public readonly dagFolder: string = "dags";
+  public readonly bucket: IBucket;
   public readonly roleName: string;
 
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const environmentName = "airflow";
-    this.dagFolder = "dags";
-
-    const bucket = new Bucket(this, "Bucket", {
+    this.bucket = new Bucket(this, "Bucket", {
       enforceSSL: true,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       autoDeleteObjects: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const role = this.createRole(environmentName, bucket);
+    const role = this.createRole();
+    this.roleName = role.roleName;
 
     const logGroup = new LogGroup(this, "LogGroup", {
       retention: RetentionDays.ONE_DAY,
@@ -57,7 +58,7 @@ export class MwaaStack extends Stack {
     new CfnEnvironment(this, "MwaaEnvironment", {
       name: environmentName,
       airflowVersion: "2.10.1",
-      sourceBucketArn: bucket.bucketArn,
+      sourceBucketArn: this.bucket.bucketArn,
       dagS3Path: this.dagFolder,
       executionRoleArn: role.roleArn,
       environmentClass: "mw1.small",
@@ -79,12 +80,9 @@ export class MwaaStack extends Stack {
         },
       },
     });
-
-    this.bucketName = bucket.bucketName;
-    this.roleName = role.roleName;
   }
 
-  createRole(environmentName: string, bucket: Bucket): Role {
+  private createRole(): Role {
     const role = new Role(this, "Role", {
       assumedBy: new CompositePrincipal(
         new ServicePrincipal("airflow.amazonaws.com"),
@@ -92,7 +90,7 @@ export class MwaaStack extends Stack {
       ),
     });
 
-    bucket.grantRead(role);
+    this.bucket.grantRead(role);
 
     role.addToPolicy(
       new PolicyStatement({

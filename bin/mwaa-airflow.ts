@@ -4,5 +4,5 @@ import { MwaaStack } from "../lib/mwaa-stack";
 
 const app = new App();
 
-const { bucketName, dagFolder, roleName } = new MwaaStack(app, "MwaaStack");
-new DagStack(app, "DagStack", { bucketName, dagFolder, roleName });
+const { dagFolder, bucket, roleName } = new MwaaStack(app, "MwaaStack");
+new DagStack(app, "DagStack", { dagFolder, bucket, roleName });

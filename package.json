@@ -6,10 +6,10 @@
     "mwaa-airflow": "bin/mwaa-airflow.js"
   },
   "scripts": {
-    "ci": "pnpm run build && pnpm run lint && pnpm run test",
+    "ci": "pnpm run build && pnpm run lint && pnpm run test && cdk synth",
     "build": "tsc",
-    "lint": "eslint && poetry run ruff check",
-    "test": "vitest run && export AIRFLOW_HOME=$(pwd) && poetry run airflow db migrate && poetry run pytest",
+    "lint": "eslint && ruff check",
+    "test": "vitest run && export AIRFLOW_HOME=$(pwd) && airflow db migrate && pytest --ignore=cdk.out",
     "test:update": "vitest run -u"
   },
   "dependencies": {

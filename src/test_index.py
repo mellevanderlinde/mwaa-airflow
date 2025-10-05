@@ -1,6 +1,6 @@
 import pytest
 
-from src.index import handler
+from index import handler
 
 
 @pytest.fixture()

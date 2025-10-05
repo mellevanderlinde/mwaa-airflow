@@ -1,15 +1,15 @@
 import type { StackProps } from "aws-cdk-lib";
+import type { IBucket } from "aws-cdk-lib/aws-s3";
 import type { Construct } from "constructs";
 import { RemovalPolicy, Stack } from "aws-cdk-lib";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
-import { Bucket } from "aws-cdk-lib/aws-s3";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
 
 interface DagStackProps extends StackProps {
-  bucketName: string;
   dagFolder: string;
+  bucket: IBucket;
   roleName: string;
 }
 
@@ -31,11 +31,7 @@ export class DagStack extends Stack {
     });
 
     new BucketDeployment(this, "BucketDeployment", {
-      destinationBucket: Bucket.fromBucketName(
-        this,
-        "Bucket",
-        props.bucketName,
-      ),
+      destinationBucket: props.bucket,
       destinationKeyPrefix: props.dagFolder,
       sources: [Source.asset("dags")],
       include: ["*.py"],
