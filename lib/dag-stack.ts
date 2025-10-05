@@ -37,6 +37,7 @@ export class DagStack extends Stack {
       include: ["*.py"],
       exclude: ["*"],
       logGroup,
+      memoryLimit: 2048,
     });
 
     handler.grantInvoke(Role.fromRoleName(this, "Role", props.roleName));

@@ -57,13 +57,15 @@ export class MwaaStack extends Stack {
 
     new CfnEnvironment(this, "MwaaEnvironment", {
       name: environmentName,
-      airflowVersion: "2.10.1",
+      airflowVersion: "3.0.6",
       sourceBucketArn: this.bucket.bucketArn,
       dagS3Path: this.dagFolder,
       executionRoleArn: role.roleArn,
-      environmentClass: "mw1.small",
-      schedulers: 2,
+      environmentClass: "mw1.micro",
+      schedulers: 1,
       maxWorkers: 1,
+      maxWebservers: 1,
+      minWebservers: 1,
       networkConfiguration: {
         securityGroupIds: [securityGroup.securityGroupId],
         subnetIds: [

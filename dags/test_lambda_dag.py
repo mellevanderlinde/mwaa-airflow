@@ -15,7 +15,7 @@ def dag(dagbag):
 def test_dag_loaded(dagbag, dag):
     assert dagbag.import_errors == {}
     assert dag is not None
-    assert dag.schedule_interval == "@daily"
+    assert dag.schedule == "@daily"
     assert len(dag.tasks) == 1
 
 

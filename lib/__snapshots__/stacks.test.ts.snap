@@ -22,7 +22,7 @@ exports[`snapshot tests > dag stack 1`] = `
       },
       "Type": "AWS::Lambda::LayerVersion",
     },
-    "BucketDeploymentCustomResourceCB7E2133": {
+    "BucketDeploymentCustomResource2048MiB82BEA142": {
       "DeletionPolicy": "Delete",
       "Properties": {
         "DestinationBucketKeyPrefix": "dags",
@@ -39,7 +39,7 @@ exports[`snapshot tests > dag stack 1`] = `
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [
-            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiB8AA4A604",
             "Arn",
           ],
         },
@@ -55,10 +55,10 @@ exports[`snapshot tests > dag stack 1`] = `
       "Type": "Custom::CDKBucketDeployment",
       "UpdateReplacePolicy": "Delete",
     },
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiB8AA4A604": {
       "DependsOn": [
-        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
-        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
       ],
       "Properties": {
         "Code": {
@@ -83,9 +83,10 @@ exports[`snapshot tests > dag stack 1`] = `
             "Ref": "LogGroupF5B46931",
           },
         },
+        "MemorySize": 2048,
         "Role": {
           "Fn::GetAtt": [
-            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
             "Arn",
           ],
         },
@@ -94,7 +95,7 @@ exports[`snapshot tests > dag stack 1`] = `
       },
       "Type": "AWS::Lambda::Function",
     },
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -125,7 +126,7 @@ exports[`snapshot tests > dag stack 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -204,10 +205,10 @@ exports[`snapshot tests > dag stack 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleDefaultPolicy5D765796",
         "Roles": [
           {
-            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C2048MiBServiceRoleB37F9ACF",
           },
         ],
       },
@@ -531,7 +532,7 @@ exports[`snapshot tests > mwaa stack 1`] = `
             "Value": "true",
           },
           {
-            "Key": "aws-cdk:cr-owned:dags:4ce51d62",
+            "Key": "aws-cdk:cr-owned:dags:11a9d86d",
             "Value": "true",
           },
         ],
@@ -720,9 +721,9 @@ exports[`snapshot tests > mwaa stack 1`] = `
     },
     "MwaaEnvironment": {
       "Properties": {
-        "AirflowVersion": "2.10.1",
+        "AirflowVersion": "3.0.6",
         "DagS3Path": "dags",
-        "EnvironmentClass": "mw1.small",
+        "EnvironmentClass": "mw1.micro",
         "ExecutionRoleArn": {
           "Fn::GetAtt": [
             "Role1ABCC5F0",
@@ -741,7 +742,9 @@ exports[`snapshot tests > mwaa stack 1`] = `
             "LogLevel": "INFO",
           },
         },
+        "MaxWebservers": 1,
         "MaxWorkers": 1,
+        "MinWebservers": 1,
         "Name": "airflow",
         "NetworkConfiguration": {
           "SecurityGroupIds": [
@@ -761,7 +764,7 @@ exports[`snapshot tests > mwaa stack 1`] = `
             },
           ],
         },
-        "Schedulers": 2,
+        "Schedulers": 1,
         "SourceBucketArn": {
           "Fn::GetAtt": [
             "Bucket83908E77",
